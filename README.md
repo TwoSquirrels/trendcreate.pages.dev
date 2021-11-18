@@ -8,7 +8,7 @@ URL: [https://trendcreate.pages.dev/](//trendcreate.pages.dev)
 
 ## Version
 
-**Version:** 0.1.0  
+**Version:** 0.1.0 (サイト制作開始)  
 **History:** [このREADMEの1番下](#History)にあるよ！  
 
 ## License
@@ -60,6 +60,10 @@ URL: [https://trendcreate.pages.dev/](//trendcreate.pages.dev)
 
 ## History
 
-### `2021/11/13:` **0.1.0**
+---
 
-サイト制作開始
+## `2021/11/13:` **0.1.0**
+
+### サイト制作開始
+
+---

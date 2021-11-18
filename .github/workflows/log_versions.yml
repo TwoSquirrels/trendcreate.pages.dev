@@ -1,0 +1,71 @@
+name: Log Versions
+
+on:
+  pull_request:
+    branches: [ main ]
+    types: [ closed ]
+
+jobs:
+  update:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+    - name: set up Git
+      run: |
+        git config --global user.email "actions@github.com"
+        git config --global user.name "Log Versions - GitHub Actions"
+    - name: checkout
+      uses: actions/checkout@v2
+    - name: get current Pull Request
+      uses: 8BitJonny/gh-get-current-pr@1.2.0
+      id: PR
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        sha: ${{ github.event.pull_request.head.sha }}
+    - name: update the description of the current version and the version history in README.md
+      env:
+        PR: ${{ steps.PR.outputs.pr }}
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const fs = require("fs").promises;
+          const version = require("./package.json").version;
+          const pr = JSON.parse(process.env.PR);
+          const now = new Date();
+          let readme = await fs.readFile("README.md", "utf8");
+          console.log("> current README.md");
+          console.log(readme);
+          console.log("\n\n> updating...\n");
+          {
+            // update the description of the current version
+            const match = readme.match(/^##\s*?Version$(?:.|\n)*?^\*\*Version:\*\*[ \t]*/m);
+            const pos = match.index + match[0].length;
+            readme = `${readme.slice(0, pos)}${readme.slice(pos).replace(/.*/, `${version} (${pr.title})  `)}`;
+          }
+          {
+            // update the version history
+            const match = readme.match(/^##\s*?History$(?:.|\n)*?$/m);
+            const pos = match.index + match[0].length;
+            readme = `${readme.slice(0, pos)}\n\n---\n\n## \`${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()}:\` **${version}**\n\n### ${pr.title}\n\n${pr.body}${readme.slice(pos)}`;
+          }
+          console.log("> updated README.md");
+          console.log(readme);
+          await fs.writeFile("README.md", readme, "utf8");
+      - name: commit
+        env:
+          PR_NUMBER: ${{ steps.PR.outputs.number }}
+        run: git add README.md && git commit -m ":octocat: Update: Update version to `cat ./package.json | jq .version -r` with #${PR_NUMBER}"
+        shell: bash
+      - name: add tag
+        env:
+          PR_TITLE: ${{ steps.PR.outputs.pr_title }}
+        run: tag -a v`cat ./package.json | jq .version -r` -m "${PR_TITLE}"
+        shell: bash
+      - push
+        run: git push --follow-tags
+      - merge into the develop branch
+        run: |
+          git checkout develop
+          git pull
+          git merge -Xtheirs main
+          git push
