@@ -29,30 +29,28 @@ jobs:
       with:
         script: |
           const fs = require("fs").promises;
-          await (async () => {
-            const version = require("./package.json").version;
-            const pr = JSON.parse(process.env.PR);
-            const now = new Date();
-            let readme = await fs.readFile("README.md", "utf8");
-            console.log("> current README.md");
-            console.log(readme);
-            console.log("\n\n> updating...\n");
-            {
-              // update the description of the current version
-              const match = readme.match(/^##\s*?Version$(?:.|\n)*?^\*\*Version:\*\*[ \t]*/m);
-              const pos = match.index + match[0].length;
-              readme = `${readme.slice(0, pos)}${readme.slice(pos).replace(/.*/, `${version} (${pr.title})  `)}`;
-            }
-            {
-              // update the version history
-              const match = readme.match(/^##\s*?History$(?:.|\n)*?$/m);
-              const pos = match.index + match[0].length;
-              readme = `${readme.slice(0, pos)}\n\n---\n\n## \`${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()}:\` **${version}**\n\n### ${pr.title}\n\n${pr.body}${readme.slice(pos)}`;
-            }
-            console.log("> updated README.md");
-            console.log(readme);
-            await fs.writeFile("README.md", readme, "utf8");
-          })();
+          const version = require("./package.json").version;
+          const pr = JSON.parse(process.env.PR);
+          const now = new Date();
+          let readme = await fs.readFile("README.md", "utf8");
+          console.log("> current README.md");
+          console.log(readme);
+          console.log("\n\n> updating...\n");
+          {
+            // update the description of the current version
+            const match = readme.match(/^##\s*?Version$(?:.|\n)*?^\*\*Version:\*\*[ \t]*/m);
+            const pos = match.index + match[0].length;
+            readme = `${readme.slice(0, pos)}${readme.slice(pos).replace(/.*/, `${version} (${pr.title})  `)}`;
+          }
+          {
+            // update the version history
+            const match = readme.match(/^##\s*?History$(?:.|\n)*?$/m);
+            const pos = match.index + match[0].length;
+            readme = `${readme.slice(0, pos)}\n\n---\n\n## \`${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()}:\` **${version}**\n\n### ${pr.title}\n\n${pr.body}${readme.slice(pos)}`;
+          }
+          console.log("> updated README.md");
+          console.log(readme);
+          await fs.writeFile("README.md", readme, "utf8");
       - name: commit
         env:
           PR_NUMBER: ${{ steps.PR.outputs.number }}
