@@ -10,8 +10,8 @@ deployは`main`branchの更新を [Cloudflare Pages](//pages.cloudflare.com/) �
 
 ## Pull Request について
 
-自動でpackage.jsonのversionを更新しversionのtagを付けREADMEに更新履歴を追記するActionを設定している都合上、  
-`main`branchへのプルリクを出す際はtitleをversionにする必要があります。  
+自動で[package.json](/package.json)からversionを取得しversionのtagを付け[README.md](/README.md)のバージョンも更新する[Action](/.github/workflows/log_versions.yml)を設定している都合上、  
+`main`branchへのプルリクを出す際は[package.json](/package.json)のversionを更新しとく必要があります。  
 versionのフォーマットはnpmのフォーマットに従い`1.0.0`の様に3桁の形式とします。  
 細かな更新や修正等の場合はマイナーバージョンを、新要素などの更新の場合は真ん中のバージョンを、大きな新要素や大幅な改修などはメジャーバージョンをincrementするようにします。  
-またプルリクのbodyには更新した内容をすべて箇条書き(`-`を使用)で書くものとします。  
+またプルリクのtitleとbodyは[README.md](/README.md)にも書かれるため適切なtitle、bodyには更新した内容をすべて箇条書き(`-`を使用)で書きましょう。  
