@@ -51,21 +51,21 @@ jobs:
           console.log("> updated README.md");
           console.log(readme);
           await fs.writeFile("README.md", readme, "utf8");
-      - name: commit
-        env:
-          PR_NUMBER: ${{ steps.PR.outputs.number }}
-        run: git add README.md && git commit -m ":octocat: Update: Update version to `cat ./package.json | jq .version -r` with #${PR_NUMBER}"
-        shell: bash
-      - name: add tag
-        env:
-          PR_TITLE: ${{ steps.PR.outputs.pr_title }}
-        run: tag -a v`cat ./package.json | jq .version -r` -m "${PR_TITLE}"
-        shell: bash
-      - push
-        run: git push --follow-tags
-      - merge into the develop branch
-        run: |
-          git checkout develop
-          git pull
-          git merge -Xtheirs main
-          git push
+    - name: commit
+      env:
+        PR_NUMBER: ${{ steps.PR.outputs.number }}
+      run: git add README.md && git commit -m ":octocat: Update: Update version to `cat ./package.json | jq .version -r` with #${PR_NUMBER}"
+      shell: bash
+    - name: add tag
+      env:
+        PR_TITLE: ${{ steps.PR.outputs.pr_title }}
+      run: tag -a v`cat ./package.json | jq .version -r` -m "${PR_TITLE}"
+      shell: bash
+    - push
+      run: git push --follow-tags
+    - merge into the develop branch
+      run: |
+        git checkout develop
+        git pull
+        git merge -Xtheirs main
+        git push
