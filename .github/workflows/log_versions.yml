@@ -54,7 +54,7 @@ jobs:
     - name: commit
       env:
         PR_NUMBER: ${{ steps.PR.outputs.number }}
-      run: git add README.md && git commit -m ":octocat: Update: Update version to `cat ./package.json | jq .version -r` with #${PR_NUMBER}"
+      run: git add README.md && git commit -m ":octocat: Update: Update version to `cat ./package.json | jq .version -r` with \#${PR_NUMBER}"
       shell: bash
     - name: add tag
       env:
