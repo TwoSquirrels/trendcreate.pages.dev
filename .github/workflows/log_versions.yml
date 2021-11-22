@@ -59,7 +59,7 @@ jobs:
     - name: add tag
       env:
         PR_TITLE: ${{ steps.PR.outputs.pr_title }}
-      run: tag -a v`cat ./package.json | jq .version -r` -m "${PR_TITLE}"
+      run: git tag -a v`cat ./package.json | jq .version -r` -m "${PR_TITLE}"
       shell: bash
     - name: push
       run: git push --follow-tags
