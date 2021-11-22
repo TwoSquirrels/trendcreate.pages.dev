@@ -65,6 +65,7 @@ jobs:
       run: git push --follow-tags
     - name: merge into the develop branch
       run: |
+        git fetch --all
         git checkout develop
         git pull
         git merge -Xtheirs main
