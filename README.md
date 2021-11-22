@@ -8,7 +8,7 @@ URL: [https://trendcreate.pages.dev/](//trendcreate.pages.dev)
 
 ## Version
 
-**Version:** 0.1.0 (サイト制作開始)  
+**Version:** 0.1.1 (GitHub Actions の動作確認)  
 **History:** [このREADMEの1番下](#History)にあるよ！  
 
 ## License
@@ -59,6 +59,14 @@ URL: [https://trendcreate.pages.dev/](//trendcreate.pages.dev)
 9. 問題がなければ無事、このプロジェクトにマージコミットが作られ反映されます！
 
 ## History
+
+---
+
+## `2021/11/22:` **0.1.1**
+
+### GitHub Actions の動作確認
+
+- バージョンからREADMEを書き換えタグを付けるActionsを書いた
 
 ---
 
