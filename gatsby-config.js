@@ -12,6 +12,7 @@ module.exports = {
     },
   },
   plugins: [
+    // file related
     `gatsby-plugin-image`,
     {
       resolve: `gatsby-source-filesystem`,
@@ -27,6 +28,9 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
+    `gatsby-transformer-sharp`,
+    `gatsby-plugin-sharp`,
+    // markdown
     {
       resolve: `gatsby-transformer-remark`,
       options: {
@@ -49,14 +53,16 @@ module.exports = {
         ],
       },
     },
-    `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
+    // ui
+    // development
+    `gatsby-plugin-typegen`,
     // {
     //   resolve: `gatsby-plugin-google-analytics`,
     //   options: {
     //     trackingId: `ADD YOUR TRACKING ID HERE`,
     //   },
     // },
+    // seo
     {
       resolve: `gatsby-plugin-feed`,
       options: {
